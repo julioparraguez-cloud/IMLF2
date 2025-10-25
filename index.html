@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Infografía sobre los programas de apoyo, prevención y desarrollo contra la Violencia Intrafamiliar (VIF) en la comuna de La Florida.">
+    <title>Infografía: Apoyo Integral en La Florida</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --color-primary-dark: #073B4C;
+            --color-primary: #118AB2;
+            --color-accent-yellow: #FFC300;
+            --color-accent-yellow-light: #FFD166;
+            --color-accent-green: #06D6A0;
+            --color-accent-red: #FF6B6B;
+            --color-light-bg: #f0f4f8;
+            --color-text-dark: #4a5568;
+            --color-text-primary: var(--color-primary-dark);
+        }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--color-light-bg); color: var(--color-text-dark); }
+        .main-header { background: linear-gradient(90deg, var(--color-primary-dark) 0%, var(--color-primary) 100%); color: white; }
+        .main-header .highlight-text { color: var(--color-accent-yellow-light); }
+        .section-title { color: var(--color-text-primary); font-size: 1.875rem; font-weight: 700; margin-bottom: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem; }
+        .text-shadow { text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header-logo { max-height: 90px; margin-bottom: 1.5rem; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.4)); }
+        .content-card { background-color: #ffffff; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 2rem; }
+        .content-sub-card { background-color: #f7fafc; border-radius: 0.5rem; border: 1px solid #edf2f7; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+        .tabs { display: flex; flex-wrap: wrap; border-bottom: 2px solid #e2e8f0; margin-bottom: 1.5rem; justify-content: center; gap: 0.5rem; }
+        .tab-link { padding: 0.85rem 1.75rem; cursor: pointer; font-weight: 600; color: var(--color-text-dark); background-color: transparent; border: none; border-bottom: 4px solid transparent; transition: all 0.3s ease; white-space: nowrap; border-radius: 0.375rem 0.375rem 0 0; }
+        .tab-link:hover:not(.active) { background-color: var(--color-light-bg); color: var(--color-text-primary); }
+        .tab-link.active { color: var(--color-text-primary); border-bottom-color: var(--color-accent-yellow); background-color: #ffffff; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .workshop-item { background-color: #eef7ff; color: var(--color-primary); padding: 0.5rem 1rem; border-radius: 9999px; font-weight: 500; text-align: center; border: 1px solid #d1e9f4; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; transition: all 0.2s ease-in-out; }
+        .workshop-item:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: #dbeafe; }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-content { background: white; padding: 2rem; border-radius: 0.75rem; max-width: 500px; width: 90%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transform: translateY(-20px); transition: transform 0.3s ease; }
+        .modal-overlay.visible .modal-content { transform: translateY(0); }
+        .modal-close { float: right; font-size: 2rem; font-weight: bold; line-height: 1; cursor: pointer; color: #888; }
+        .modal-close:hover { color: #000; }
+        .modal-title { color: var(--color-text-primary); }
+        .chart-container { position: relative; width: 100%; max-width: 700px; margin: auto; height: 350px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+        .footer { background-color: var(--color-primary-dark); color: white; }
+        .footer-separator { border-top: 2px solid var(--color-accent-yellow); padding-top: 1.5rem; margin-top: 2rem; }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="main-header text-center p-10 rounded-lg mb-8 shadow-lg">
+            <img src="https://www.laflorida.cl/sitio/wp-content/uploads/2024/05/header_laflorida_2024.png" alt="Logo Ilustre Municipalidad de La Florida 2024" class="header-logo mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-2 text-shadow">Población vinculada al VIF en La Florida</h1>
+            <p class="text-xl md:text-2xl text-shadow highlight-text">Programas y secciones de ayuda para los vecinos</p>
+            <p class="max-w-4xl mx-auto mt-4 text-base opacity-90">Presentamos un informe preliminar de los programas de apoyo, prevención, capacitación y desarrollo que ofrecemos a las mujeres, jóvenes y adultos mayores de nuestra comuna.</p>
+	    <p class="max-w-4xl mx-auto mt-4 text-base opacity-90">Información extraída de las estadísticas del 1416 (Seguridad) y del sitio web municipal: https://www.laflorida.cl/sitio/.</p>
+        </header>
+        
+        <main class="content-card">
+            <div class="tabs" role="tablist" aria-label="Navegación de secciones">
+                <button role="tab" aria-selected="true" aria-controls="datosVIF-panel" id="datosVIF-tab" class="tab-link active" data-tab="datosVIF">Datos VIF</button>
+                <button role="tab" aria-selected="false" aria-controls="centroMujer-panel" id="centroMujer-tab" class="tab-link" data-tab="centroMujer">Centro de la Mujer</button>
+                <button role="tab" aria-selected="false" aria-controls="seccionMujer-panel" id="seccionMujer-tab" class="tab-link" data-tab="seccionMujer">Sección de la Mujer</button>
+                <button role="tab" aria-selected="false" aria-controls="seccionJovenes-panel" id="seccionJovenes-tab" class="tab-link" data-tab="seccionJovenes">Jóvenes e Infancia</button>
+                <button role="tab" aria-selected="false" aria-controls="seccionAdultoMayor-panel" id="seccionAdultoMayor-tab" class="tab-link" data-tab="seccionAdultoMayor">Sección Adulto Mayor</button>
+            </div>
+
+            <div id="datosVIF-panel" role="tabpanel" aria-labelledby="datosVIF-tab" class="tab-content active">
+                <section>
+                    <h2 class="section-title text-center">Análisis de la Realidad Local: Violencia Intrafamiliar (VIF)</h2>
+                    <div class="content-sub-card"><h3 class="text-xl font-bold text-center mb-4 text-primary-dark">Volumen de Casos VIF Registrados</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><div class="text-center p-4"><p class="text-lg text-gray-600">Total Casos VIF en 2024</p><p class="text-8xl font-bold" style="color: var(--color-primary);">755</p><p class="text-lg text-gray-600 mt-4">Casos VIF en 2025 (a la fecha)</p><p class="text-8xl font-bold" style="color: var(--color-accent-green);">587</p></div><div><div class="chart-container h-64 md:h-80"><canvas id="totalCasesChart"></canvas></div><p class="text-center text-sm text-gray-600 mt-2">Comparación del número total de incidentes de VIF registrados cada año.</p></div></div></div>
+                    <div class="content-sub-card"><h3 class="text-xl font-bold text-center mb-4 text-primary-dark">Tipos de Agresión Reportada</h3><p class="text-center text-gray-700 max-w-3xl mx-auto mb-6">La agresión física y psicológica son las formas de violencia más frecuentes. Es crucial visibilizar que la violencia no siempre deja marcas visibles.</p><div class="chart-container h-[450px]"><canvas id="aggressionTypeChart"></canvas></div></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div class="content-sub-card"><h3 class="text-xl font-bold text-center mb-4 text-primary-dark">Densidad Horaria de Incidentes</h3><p class="text-center text-gray-700 max-w-3xl mx-auto mb-6">El gráfico muestra un peak claro de incidentes durante las horas de la tarde y noche.</p><div class="chart-container h-[450px]"><canvas id="hourlyIncidentsChart"></canvas></div></div><div class="content-sub-card"><h3 class="text-xl font-bold text-center mb-4 text-primary-dark">Incidentes por Día de la Semana</h3><p class="text-center text-gray-700 max-w-3xl mx-auto mb-6">El fin de semana, especialmente el domingo (resaltado), concentra la mayor cantidad de reportes.</p><div class="chart-container h-[450px]"><canvas id="dailyIncidentsChart"></canvas></div></div></div>
+                </section>
+            </div>
+            
+            <div id="centroMujer-panel" role="tabpanel" aria-labelledby="centroMujer-tab" class="tab-content">
+                <section>
+                    <h2 class="section-title text-center">Centro de la Mujer</h2>
+                    <div class="content-sub-card text-center">
+                        <p class="text-lg text-gray-700 max-w-4xl mx-auto">Acompañamos y apoyamos a mujeres que han vivido o están viviendo situaciones de violencia de género. Este programa es un convenio entre el <strong>Servicio Nacional de la Mujer y la Equidad de Género (SernamEG)</strong> y la <strong>Municipalidad de La Florida</strong>, cuyo propósito es ayudar a disminuir los riesgos y brindarte una atención integral, respetuosa y cercana.</p>
+                    </div>
+                    <div class="content-sub-card"><h3 class="text-2xl font-bold text-center mb-6 text-primary-dark">Línea de Atención: Apoyo Directo e Integral</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-8"><div class="p-6 rounded-lg border-t-4" style="border-color: #FF6B6B; background-color: #fff5f5;"><h4 class="text-xl font-bold mb-3">Etapa 1: Respuesta Inicial Integral</h4><p class="font-semibold mb-2">Dirigida a:</p><ul class="list-disc list-inside text-gray-700 space-y-1 mb-4"><li>Mujeres de 15 años o más.</li><li>Que vivan, estudien o trabajen en la comuna.</li><li>Que hayan vivido o estén viviendo algún tipo de violencia de género.</li></ul><p class="font-semibold mb-2">Apoyo Ofrecido:</p><ul class="list-disc list-inside text-gray-700 space-y-1"><li>Contención emocional y espacio seguro.</li><li>Orientación sobre derechos y opciones legales.</li><li>Evaluación de riesgos para protección.</li><li>Derivación a otros servicios especializados.</li></ul></div><div class="p-6 rounded-lg border-t-4" style="border-color: #FFC300; background-color: #fffbeb;"><h4 class="text-xl font-bold mb-3">Etapa 2: Respuesta de Apoyo Continuo</h4><p class="font-semibold mb-2">Dirigida a:</p><ul class="list-disc list-inside text-gray-700 space-y-1 mb-4"><li>Mujeres de 18 años o más.</li><li>Que hayan vivido violencia en una relación de pareja o ex pareja.</li></ul><p class="font-semibold mb-2">Apoyo Brindado:</p><ul class="list-disc list-inside text-gray-700 space-y-1"><li>Acompañamiento psico-social y fortalecimiento.</li><li>Grupos de apoyo para compartir experiencias.</li><li>Orientación y patrocinio legal en causas VIF.</li></ul></div></div></div>
+                    <div class="content-sub-card"><h3 class="text-2xl font-bold text-center mb-6 text-primary-dark">Protección a la Mujer</h3><ul class="max-w-lg mx-auto space-y-3 text-left"><li class="flex items-center text-lg p-3 rounded-md bg-gray-50 border border-gray-200"><span class="text-2xl mr-3">🛡️</span> Convenio con la Fiscalía para casos en riesgo alto o vital.</li><li class="flex items-center text-lg p-3 rounded-md bg-gray-50 border border-gray-200"><span class="text-2xl mr-3">📞</span> Atenciones a través del teléfono de emergencia 1416.</li><li class="flex items-center text-lg p-3 rounded-md bg-gray-50 border border-gray-200"><span class="text-2xl mr-3">🚨</span> Entrega de Botones SOS para mujeres que han sufrido acoso callejero.</li></ul></div>
+                    <div class="content-sub-card"><h3 class="text-2xl font-bold text-center mb-6 text-primary-dark">Línea de Prevención: Hacia Comunidades Libres de Violencia</h3><p class="text-center text-gray-700 max-w-3xl mx-auto mb-8">Trabajamos para que organizaciones sociales y educativas puedan prevenir la violencia de género, fomentando espacios seguros, respetuosos e igualitarios.</p><div class="grid grid-cols-1 md:grid-cols-2 gap-8"><div class="p-6 rounded-lg text-center" style="background-color: #e0f2fe;"><h4 class="text-xl font-bold mb-3">Área 1: Sensibilización y Formación</h4><p class="text-gray-700">Realizamos talleres para aprender a identificar y prevenir la violencia de género en la comunidad.</p><div class="mt-4 bg-blue-100 text-blue-800 font-bold py-2 px-4 rounded-full inline-block">Duración: 4 meses</div></div><div class="p-6 rounded-lg text-center" style="background-color: #e0f2fe;"><h4 class="text-xl font-bold mb-3">Área 2: Trabajo con Organizaciones</h4><p class="text-gray-700">Acompañamos a organizaciones a revisar sus dinámicas y promover activamente comunidades sin violencia.</p><div class="mt-4 bg-blue-100 text-blue-800 font-bold py-2 px-4 rounded-full inline-block">Duración: 6 meses</div></div></div></div>
+                </section>
+            </div>
+
+            <div id="seccionMujer-panel" role="tabpanel" aria-labelledby="seccionMujer-tab" class="tab-content">
+                <section>
+                    <h2 class="section-title text-center">Una instancia de Desarrollo y Autonomía Económica para las mujeres de la Comuna</h2>
+                    <div class="content-sub-card"><p class="text-center text-lg text-gray-700 max-w-4xl mx-auto">Ofrecemos espacios de apoyo y soporte para promover el bienestar y desarrollo personal de nuestras vecinas, a través de iniciativas, cursos y talleres gratuitos que entregan herramientas y conocimientos prácticos para fomentar el emprendimiento y el crecimiento personal.</p></div>
+                    <div class="content-sub-card"><h3 class="text-2xl font-bold text-center mb-2 text-primary-dark">Sección de la Mujer: Talleres Laborales Gratuitos</h3><p class="text-center text-gray-600 mb-6">Requisitos: ser mayor de 18 años y vivir en la comuna de La Florida.</p><div class="mb-6"><h4 class="text-xl font-semibold mb-3 text-center text-primary-dark">Talleres Anuales <span class="text-sm font-normal text-gray-500">(Inscripciones en Enero)</span></h4><div class="flex justify-center gap-4 flex-wrap"><button class="workshop-item" data-title="Repostería y Gastronomía" data-description="Aprende técnicas de cocina y pastelería para iniciar tu propio emprendimiento. Desde masas básicas hasta decoración de tortas, este taller te dará las herramientas para endulzar tu futuro.">Repostería y Gastronomía</button><button class="workshop-item" data-title="Manicure/Pedicure" data-description="Conviértete en una profesional de la belleza de manos y pies. El curso cubre técnicas de esmaltado tradicional, permanente, cuidado de uñas y más.">Manicure/Pedicure</button><button class="workshop-item" data-title="Peluquería" data-description="Fórmate en el arte de la peluquería, aprendiendo técnicas de corte, color, peinado y tratamientos capilares para ofrecer un servicio integral.">Peluquería</button></div></div><div><h4 class="text-xl font-semibold mb-4 text-center text-primary-dark">Talleres Semestrales <span class="text-sm font-normal text-gray-500">(Inscripciones en Julio)</span></h4><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"><button class="workshop-item" data-title="Estética" data-description="Sumérgete en el mundo del cuidado facial y corporal. Aprenderás sobre tratamientos de la piel, limpiezas, masajes y el uso de productos para realzar la belleza natural.">Estética</button><button class="workshop-item" data-title="Maquillaje y Peinado" data-description="Desarrolla tu creatividad y aprende a crear looks para toda ocasión. Desde maquillaje de día y noche hasta peinados elaborados, este taller te convertirá en una artista.">Maquillaje y Peinado</button><button class="workshop-item" data-title="Cosmetología Natural" data-description="Descubre el poder de la naturaleza para el cuidado personal. Aprenderás a elaborar tus propios cosméticos con ingredientes orgánicos y técnicas amigables con el medio ambiente.">Cosmetología Natural</button><button class="workshop-item" data-title="Corte y Confección" data-description="Dale vida a tus ideas y aprende a crear prendas desde cero. El taller abarca desde la toma de medidas y el manejo de la máquina de coser hasta la confección de ropa.">Corte y Confección</button><button class="workshop-item" data-title="Bordado" data-description="Explora el arte de decorar con hilos y agujas. Aprenderás diferentes puntadas y técnicas para crear diseños únicos en tela, personalizando prendas y accesorios.">Bordado</button><button class="workshop-item" data-title="Mosaico y Pintura" data-description="Libera tu lado artístico y aprende a crear obras coloridas. Trabajarás con técnicas de mosaico para componer imágenes con fragmentos y explorarás la pintura en distintas superficies.">Mosaico y Pintura</button><button class="workshop-item" data-title="Yoga y Acondicionamiento" data-description="Encuentra el equilibrio entre cuerpo y mente. Este taller te guiará a través de posturas de yoga y ejercicios de acondicionamiento para mejorar tu flexibilidad, fuerza y bienestar general.">Yoga y Acondicionamiento</button><button class="workshop-item" data-title="Terapia Complementaria" data-description="Iníciate en técnicas de sanación y bienestar alternativas. Aprenderás sobre masajes, aromaterapia, Reiki, hierbas medicinales, alineación de chakras y numerología para promover la relajación y el equilibrio energético.">Terapia Complementaria</button><button class="workshop-item" data-title="Tejidos (Palillo/Crochet)" data-description="Domina el arte de tejer y crea prendas y accesorios únicos. Aprenderás desde los puntos básicos hasta patrones complejos, tanto con palillos como con crochet.">Tejidos (Palillo/Crochet)</button><button class="workshop-item" data-title="Macramé y Telar" data-description="Descubre el arte de los nudos decorativos y el tejido en telar. Crearás piezas únicas como tapices, colgantes para plantas y otros objetos ornamentales.">Macramé y Telar</button><button class="workshop-item" data-title="Reciclaje Textil" data-description="Transforma prendas que ya no usas en nuevos productos con estilo. Aprenderás técnicas creativas para dar una segunda vida a la ropa y contribuir a la moda sostenible.">Reciclaje Textil</button><button class="workshop-item" data-title="Técnicas de Construcción" data-description="Adquiere habilidades prácticas para realizar reparaciones y mejoras en el hogar. El taller cubre nociones básicas de piso, electricidad, cañerías y otros.">Técnicas de Construcción</button><button class="workshop-item" data-title="Globoflexia" data-description="Aprende a crear figuras y decoraciones increíbles con globos. Este taller es ideal para animar eventos, fiestas infantiles o iniciar un emprendimiento creativo.">Globoflexia</button><button class="workshop-item" data-title="Bisutería" data-description="Diseña y crea tus propias joyas y accesorios. Aprenderás a trabajar con diferentes materiales, herramientas y técnicas para elaborar piezas únicas y originales.">Bisutería</button></div></div></div>
+                    <div class="content-sub-card"><h3 class="text-2xl font-bold text-center mb-4 text-primary-dark">Capacitación para el Trabajo Colectivo</h3><p class="text-center text-gray-700 max-w-3xl mx-auto mb-6">Estas instancias tienen como objetivo fortalecer y empoderar a las mujeres en el trabajo colectivo a través de las siguientes temáticas:</p><div class="flex justify-center flex-wrap gap-4 text-center"><span class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-3 py-1 rounded-full">Liderazgo</span><span class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-3 py-1 rounded-full">Gestión Comunitaria</span><span class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-3 py-1 rounded-full">Desarrollo Personal</span><span class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-3 py-1 rounded-full">Orientación sobre Fondos Concursables</span><span class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-3 py-1 rounded-full">Ley 19.418 (Organizaciones Comunitarias)</span><span class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-3 py-1 rounded-full">Acompañamiento a Agrupaciones</span></div></div>
+                    <div class="content-sub-card"><h3 class="text-2xl font-bold text-center mb-4 text-primary-dark">Programa Jefas de Hogar</h3><p class="text-center text-xl font-semibold italic text-gray-500 mb-4">Un Programa PENSADO para ELLAS</p><p class="text-center text-gray-700 max-w-3xl mx-auto">Este programa, en alianza con SernamEG, busca promover la <strong>autonomía económica</strong> de mujeres jefas de hogar, fomentando el desarrollo de habilidades orientadas a generar ingresos para sus familias y fortalecer su independencia.</p></div>
+                </section>
+            </div>
+            
+            <div id="seccionJovenes-panel" role="tabpanel" aria-labelledby="seccionJovenes-tab" class="tab-content">
+                <section>
+                    <h2 class="section-title text-center">Iniciativas para Jóvenes e Infancia</h2>
+                    
+                    <div class="content-sub-card text-center"><h3 class="text-2xl font-bold mb-2 text-primary-dark">Sección Jóvenes: <span class="text-accent-green">Porque La Florida te Apaña</span></h3><p class="text-lg text-gray-700 max-w-4xl mx-auto">Nuestro objetivo es apoyar a los jóvenes de La Florida y sus organizaciones, creando espacios para el desarrollo de su creatividad y potencial, y asesorándolos en proyectos para postular a fondos de financiamiento.</p><div class="grid md:grid-cols-3 gap-6 mt-6 text-left"><div class="p-4 border-l-4 border-green-300"> <h4 class="text-xl font-bold text-primary mb-2">1. Talleres</h4> <p>Actividades artísticas, culturales y deportivas como Capoeira y Break Dance.</p></div><div class="p-4 border-l-4 border-yellow-300"> <h4 class="text-xl font-bold text-primary mb-2">2. Participación Comunitaria</h4> <p>Apoyo a agrupaciones juveniles en su formalización como organización funcional para que puedan llevar a cabo sus proyectos.</p></div><div class="p-4 border-l-4 border-red-300"> <h4 class="text-xl font-bold text-primary mb-2">3. Subvenciones</h4> <p>Asesoría en subvenciones para organizaciones con temáticas de interés juvenil.</p></div></div><p class="mt-4 text-sm text-gray-600">Para más información, puedes asistir a <strong>Avenida Vicuña Mackenna 10.777, container 1, Metro Los Quillayes.</strong></p></div>
+
+                    <div class="content-sub-card text-center"><h3 class="text-2xl font-bold mb-2 text-primary-dark">Programa Infancia</h3><p class="text-lg text-gray-700 max-w-4xl mx-auto">Somos un equipo multidisciplinario comprometido con mejorar las condiciones y calidad de vida de la población infantil y sus familias, especialmente de aquellos en contextos de mayor vulnerabilidad social.</p></div>
+                    
+                    <div class="content-sub-card"><h3 class="text-2xl font-bold text-center mb-6 text-primary-dark">Áreas de Trabajo del Programa Infancia</h3><div class="grid md:grid-cols-2 gap-8"><div class="p-4 border-l-4 border-blue-300"><h4 class="text-xl font-bold text-primary mb-2">Fomento a la Participación Infantil</h4><p>Promovemos acciones para que niños, niñas y jóvenes ejerzan su ciudadanía, a través de:</p><ul class="list-disc list-inside mt-2 text-gray-700"><li>Fondos de Iniciativas Infantiles (apoyo a ideas con sentido comunitario).</li><li>Congreso Comunal de niños, niñas y jóvenes (espacio de diálogo y reflexión).</li></ul></div><div class="p-4 border-l-4 border-green-300"><h4 class="text-xl font-bold text-primary mb-2">Apoyo al Bienestar y Salud Mental Escolar</h4><p>Ejecución del Programa Habilidades para la Vida en 16 colegios subvencionados con alto índice de vulnerabilidad, con actividades de autocuidado, talleres preventivos y derivación oportuna a salud mental.</p></div><div class="p-4 border-l-4 border-yellow-300"><h4 class="text-xl font-bold text-primary mb-2">Apoyo a la Primera Infancia</h4><p>Coordinación del Subsistema <strong>Chile Crece Contigo</strong> y orientación sobre salas cunas y jardines. Se realizan intervenciones de apoyo al desarrollo infantil a través de estimulación temprana.</p></div><div class="p-4 border-l-4 border-red-300"><h4 class="text-xl font-bold text-primary mb-2">Capacitación y Formación</h4><p>Entrega de herramientas a adultos que trabajan con niños y niñas, a través de talleres para padres, seminarios y talleres de apoyo al desarrollo infantil.</p></div><div class="p-4 border-l-4 border-purple-300"><h4 class="text-xl font-bold text-primary mb-2">Apoyo Psicosocial</h4><p>Promueve el abordaje de dificultades específicas a través de evaluación diagnóstica, vinculación con redes locales, visitas domiciliarias e informes sociales.</p></div><div class="p-4 border-l-4 border-indigo-300"><h4 class="text-xl font-bold text-primary mb-2">Extensión y Difusión</h4><p>Promueve la incidencia del Programa Infancia en el nivel institucional, organizacional y territorial, participando en el diseño de políticas locales a favor de la niñez.</p></div></div></div>
+                </section>
+            </div>
+
+            <div id="seccionAdultoMayor-panel" role="tabpanel" aria-labelledby="seccionAdultoMayor-tab" class="tab-content">
+                <section>
+                    <h2 class="section-title text-center">Una Instancia de Participación para el Adulto Mayor</h2>
+                    <div class="content-sub-card text-center">
+                        <h3 class="text-2xl font-bold mb-2 text-primary-dark">Nuestro Objetivo</h3>
+                        <p class="text-lg text-gray-700 max-w-4xl mx-auto">Promover en los adultos mayores instancias de participación, integración, inclusión, formación y capacitación en procesos de envejecimiento activo para favorecer la asociatividad, la autovalencia y el ejercicio de deberes y derechos.</p>
+                    </div>
+
+                    <div class="content-sub-card">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-primary-dark">Nuestras Áreas de Apoyo</h3>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="p-4 border-l-4 border-blue-300">
+                                <h4 class="text-xl font-bold text-primary mb-2">Área Social</h4>
+                                <p>Apoyar, orientar y gestionar beneficios municipales a través de informes sociales, visitas domiciliarias y entrevistas. Se realizan postulaciones a establecimientos de larga estadía y condominios de viviendas tuteladas.</p>
+                            </div>
+                            <div class="p-4 border-l-4 border-red-300">
+                                <h4 class="text-xl font-bold text-primary mb-2">Oficina de Protección de Derechos (OPDAM)</h4>
+                                <p>Contribuir a reducir la violencia y el maltrato hacia los adultos mayores mediante una intervención multidisciplinaria (legal, psicológica y social) y orientar sobre cómo realizar denuncias.</p>
+                            </div>
+                            <div class="p-4 border-l-4 border-green-300">
+                                <h4 class="text-xl font-bold text-primary mb-2">Gestión Territorial (Área Comunitaria)</h4>
+                                <p>Generar espacios para consolidar el sentido de pertenencia, fortalecer el crecimiento grupal y la integración a redes. Se asesora a clubes, se capacita a dirigentes y se apoya en la postulación a fondos concursables.</p>
+                            </div>
+                            <div class="p-4 border-l-4 border-yellow-300">
+                                <h4 class="text-xl font-bold text-primary mb-2">Programa Vínculos</h4>
+                                <p>Acompañamiento y apoyo psicosocial a adultos mayores en condición de vulnerabilidad. Monitores comunitarios realizan visitas domiciliarias para fomentar la organización y participación.</p>
+                            </div>
+                            <div class="p-4 border-l-4 border-purple-300">
+                                <h4 class="text-xl font-bold text-primary mb-2">Área Deportes, Recreación y Cultura</h4>
+                                <p>Potencia el desarrollo de habilidades artísticas y un estilo de vida saludable. Se dispone de 26 Centros de Gimnasia gratuitos y talleres de Cueca, Tango, Yoga, Macramé, Tejido, entre otros.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+        
+        <footer class="footer text-center mt-12 p-8 rounded-lg">
+            <h2 class="text-3xl font-bold mb-6 text-shadow">Nuestros Puntos de Contacto</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto text-left">
+                <div class="bg-white/10 p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3" style="color: var(--color-accent-red);">Centro de la Mujer</h3>
+                    <p class="mb-4">Para apoyo en situaciones de violencia de género.</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-user-tie w-4 text-center"></i> <span class="font-bold">Encargado:</span> Oscar Mora Negrete</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-envelope w-4 text-center"></i> <span class="font-bold">Correo:</span> <a href="mailto:centrodelamujerlaflorida@gmail.com" class="hover:underline">centrodelamujerlaflorida@gmail.com</a></p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-envelope w-4 text-center"></i> <span class="font-bold">Directo:</span> <a href="mailto:omora@laflorida.cl" class="hover:underline">omora@laflorida.cl</a></p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-phone w-4 text-center"></i> <span class="font-bold">Teléfono:</span> <a href="tel:+56225054800" class="hover:underline">22 505 4800</a></p>
+                </div>
+
+                <div class="bg-white/10 p-6 rounded-lg flex flex-col">
+                    <h3 class="text-2xl font-bold mb-3" style="color: var(--color-accent-yellow);">Sección de la Mujer</h3>
+                    <p class="mb-4">Para talleres, capacitaciones y programas de autonomía económica.</p>
+                    <div class="mb-4">
+                        <h4 class="font-bold text-lg">Sección de la Mujer</h4>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-user w-4 text-center"></i><span class="font-semibold">Encargada:</span> Paula Briones</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-phone w-4 text-center"></i><span class="font-semibold">Teléfonos:</span> <a href="tel:+56225054348" class="hover:underline">22 505 4348</a> / <a href="tel:+56225054352" class="hover:underline">4352</a> / <a href="tel:+562250549349" class="hover:underline">49349</a></p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg">Programa Jefas de Hogar</h4>
+                        <p class="flex items-center gap-2 text-sm"><i class="fa-solid fa-location-dot w-4 text-center"></i><span class="font-semibold">Dirección:</span> Av. Vicuña Mackenna #10.777</p>
+                        <p class="flex items-center gap-2 text-sm"><i class="fa-solid fa-clock w-4 text-center"></i><span class="font-semibold">Horario:</span> L-J 08:30-17:30, V 08:30-16:30</p>
+                        <p class="flex items-center gap-2 text-sm"><i class="fa-solid fa-user-tie w-4 text-center"></i><span class="font-semibold">Encargada:</span> Pamela Lobos Godoy</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/10 p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3" style="color: var(--color-accent-green);">Sección Adulto Mayor</h3>
+                    <p class="mb-4">Para programas de envejecimiento activo, participación e inclusión.</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-user-tie w-4 text-center"></i><span class="font-bold">Encargado:</span> Alejandro Rosales Tobar</p>
+                    <p class="flex items-center gap-2"><i class="fa-solid fa-envelope w-4 text-center"></i><span class="font-bold">Correos:</span> <a href="mailto:arosales@laflorida.cl" class="hover:underline">arosales@laflorida.cl</a> / <a href="mailto:adultomayor@laflorida.cl" class="hover:underline">adultomayor@laflorida.cl</a></p>
+                    <p class="flex items-center gap-2 mt-2"><i class="fa-solid fa-phone w-4 text-center"></i><span class="font-bold">Teléfonos por área:</span></p>
+                    <ul class="text-sm ml-6 space-y-1 mt-1">
+                        <li><strong>Área Social:</strong> <a href="tel:+5641994796" class="hover:underline">4199 4796 4021</a></li>
+                        <li><strong>OPDAM:</strong> <a href="tel:+56225054792" class="hover:underline">22 505 4792</a></li>
+                        <li><strong>Talleres:</strong> <a href="tel:+56225054357" class="hover:underline">22 505 4357</a></li>
+                        <li><strong>Prog. Vínculos:</strong> <a href="tel:+56225054790" class="hover:underline">22 505 4790</a></li>
+                        <li><strong>Gestión Territorial:</strong> <a href="tel:+56225054353" class="hover:underline">22 505 4353</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-separator">
+                <p class="text-lg font-bold">Si es una emergencia, llama al Fono de Emergencia Municipal:</p>
+                <p class="text-4xl font-bold tracking-wider mt-1" style="color: var(--color-accent-green);"><i class="fa-solid fa-triangle-exclamation"></i> 1416</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <div id="workshopModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+        <div class="modal-content"><button class="modal-close" aria-label="Cerrar modal">&times;</button><h2 id="modalTitle" class="text-2xl font-bold mb-4 modal-title"></h2><p id="modalDescription" class="text-gray-700"></p></div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const chartPalette = { red: '#FF6B6B', yellow: '#FFC300', green: '#06D6A0', blue: '#118AB2', darkBlue: '#073B4C' };
+    const chartData = {
+        totalCases: {
+            labels: ['2024', '2025 (a la fecha)'],
+            values: [755, 587]
+        },
+        aggressionTypes: {
+            labels: ['Psicológica', 'Física', 'Física/Verbal', 'Verbal', 'No Especificada'],
+            values2024: [194, 242, 191, 23, 105],
+            values2025: [177, 187, 152, 0, 71]
+        },
+        dailyIncidents: {
+            labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+            values: [185, 175, 189, 163, 184, 198, 248]
+        },
+        hourlyIncidents: {
+            labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+            values: [76, 55, 31, 27, 15, 22, 16, 16, 20, 46, 48, 59, 71, 66, 60, 51, 59, 68, 69, 44, 79, 102, 129, 113]
+        }
+    };
+
+    const initTabs = () => {
+        const tabContainer = document.querySelector('.tabs');
+        if (!tabContainer) return;
+
+        const tabs = Array.from(tabContainer.querySelectorAll('.tab-link'));
+        const tabPanels = document.querySelectorAll('.tab-content');
+
+        const openTab = (tabId) => {
+            tabs.forEach(tab => {
+                const isActive = tab.dataset.tab === tabId;
+                tab.classList.toggle('active', isActive);
+                tab.setAttribute('aria-selected', isActive);
+            });
+            tabPanels.forEach(panel => {
+                const isActive = panel.id === `${tabId}-panel`;
+                panel.classList.toggle('active', isActive);
+            });
+        };
+
+        tabContainer.addEventListener('click', (event) => {
+            const clickedTab = event.target.closest('.tab-link');
+            if (clickedTab) {
+                openTab(clickedTab.dataset.tab);
+                const contentCard = document.querySelector('.content-card');
+                if (contentCard) {
+                    contentCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+
+        tabContainer.addEventListener('keydown', (e) => {
+            const currentTab = document.activeElement;
+            if (!currentTab || !currentTab.classList.contains('tab-link')) return;
+
+            const currentIndex = tabs.indexOf(currentTab);
+            let newIndex = -1;
+
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                newIndex = (currentIndex + 1) % tabs.length;
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+            }
+
+            if (newIndex !== -1) {
+                tabs[newIndex].focus();
+                openTab(tabs[newIndex].dataset.tab);
+            }
+        });
+
+        if(tabs.length > 0) openTab(tabs[0].dataset.tab);
+    };
+
+    const initWorkshopModal = () => {
+        const modal = document.getElementById('workshopModal');
+        if (!modal) return;
+
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const workshopButtons = document.querySelectorAll('.workshop-item');
+        const closeModalButton = modal.querySelector('.modal-close');
+        let lastFocusedElement; 
+
+        const focusableElementsString = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+        const trapFocus = (e) => {
+            const focusableElements = Array.from(modal.querySelectorAll(focusableElementsString));
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            if (e.key === 'Tab') {
+                if (e.shiftKey && document.activeElement === firstElement) {
+                    e.preventDefault();
+                    lastElement.focus();
+                } else if (!e.shiftKey && document.activeElement === lastElement) {
+                    e.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        };
+
+        const openModal = (title, description, opener) => {
+            lastFocusedElement = opener;
+            if (modalTitle) modalTitle.textContent = title;
+            if (modalDescription) modalDescription.textContent = description;
+            
+            modal.classList.add('visible');
+            modal.removeAttribute('hidden');
+            document.addEventListener('keydown', trapFocus);
+            closeModalButton?.focus();
+        };
+
+        const closeModal = () => {
+            modal.classList.remove('visible');
+            modal.setAttribute('hidden', 'true');
+            document.removeEventListener('keydown', trapFocus);
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            }
+        };
+
+        workshopButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const title = button.dataset.title;
+                const description = button.dataset.description;
+                openModal(title, description, button);
+            });
+        });
+
+        closeModalButton?.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('visible')) closeModal();
+        });
+    };
+
+    const initCharts = () => {
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'var(--color-text-dark)',
+                        font: {
+                            family: "'Poppins', sans-serif"
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: 'var(--color-text-dark)' },
+                    grid: { color: '#e2e8f0' }
+                },
+                x: {
+                    ticks: { color: 'var(--color-text-dark)' },
+                    grid: { display: false }
+                }
+            }
+        };
+
+        const createChart = (canvasId, config) => {
+            const ctx = document.getElementById(canvasId)?.getContext('2d');
+            if (ctx) {
+                new Chart(ctx, config);
+            } else {
+                console.warn(`Canvas con id "${canvasId}" no fue encontrado.`);
+            }
+        };
+
+        createChart('totalCasesChart', {
+            type: 'bar',
+            data: { labels: chartData.totalCases.labels, datasets: [{ label: 'Total Casos VIF', data: chartData.totalCases.values, backgroundColor: [chartPalette.blue, chartPalette.green] }] },
+            options: { ...defaultChartOptions, plugins: { legend: { display: false } } }
+        });
+
+        createChart('aggressionTypeChart', {
+            type: 'bar',
+            data: { labels: chartData.aggressionTypes.labels, datasets: [ { label: '2024', data: chartData.aggressionTypes.values2024, backgroundColor: chartPalette.darkBlue }, { label: '2025', data: chartData.aggressionTypes.values2025, backgroundColor: chartPalette.blue } ] },
+            options: defaultChartOptions
+        });
+        
+        createChart('dailyIncidentsChart', {
+            type: 'bar',
+            data: { labels: chartData.dailyIncidents.labels, datasets: [{ label: 'Número de Incidentes', data: chartData.dailyIncidents.values, backgroundColor: chartData.dailyIncidents.labels.map(day => day === 'Domingo' ? chartPalette.yellow : chartPalette.blue) }] },
+            options: { ...defaultChartOptions, plugins: { legend: { display: false } } }
+        });
+        
+        createChart('hourlyIncidentsChart', {
+            type: 'bar',
+            data: { labels: chartData.hourlyIncidents.labels, datasets: [{ label: 'Número de Incidentes', data: chartData.hourlyIncidents.values, backgroundColor: chartPalette.darkBlue }] },
+            options: { ...defaultChartOptions, plugins: { legend: { display: false } } }
+        });
+    };
+
+    // Inicializar todas las funcionalidades
+    initTabs();
+    initWorkshopModal();
+    initCharts();
+});
+</script>
+
+</body>
+</html>
